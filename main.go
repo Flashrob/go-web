@@ -26,14 +26,10 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	type Data struct {
-		name string
-		age  int
-	}
+	resp := make(map[string]string)
+	resp["message"] = "hello world yoooo"
 
-	data := Data{"John", 30}
-	payload, _ := json.Marshal(data)
-	w.WriteHeader(http.StatusOK)
+	payload, _ := json.Marshal(resp)
+
 	w.Write(payload)
-	// fmt.Fprintf(w, "hello")
 }
