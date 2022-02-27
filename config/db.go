@@ -15,6 +15,8 @@ var (
 	dbname = "testgo"
 )
 
+var Database *sql.DB
+
 func ConnectDB() *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable", host, port, user, dbname)
 	DB, err := sql.Open("postgres", psqlInfo)
@@ -22,5 +24,10 @@ func ConnectDB() *sql.DB {
 		log.Fatalf("Cannot connect : %s", err)
 	}
 
-	return DB
+	Database := DB
+	return Database
+}
+
+func GetDatabase() *sql.DB {
+	return Database
 }
