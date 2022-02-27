@@ -2,11 +2,40 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"web-go/config"
 )
 
+type Student struct {
+	ID int
+	Name string
+}
+
 func main() {
+	DB := DBConfig.ConnectDB()
+
+	rows, err := DB.Query("SELECT * FROM Students")
+	if (err != nil) {
+		log.Fatal(err);
+	}
+
+	students := []Student{}
+
+	for rows.Next() {
+		var (
+			id int
+			name string
+		)
+
+		rows.Scan(&id, &name)
+
+		students = append(students, Student{id, name})
+	}
+
+	fmt.Println(students)
+
 	http.HandleFunc("/hello", helloHandler)
 
 	println("Server started at localhost:8080")
